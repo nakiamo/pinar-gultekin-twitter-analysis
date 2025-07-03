@@ -39,5 +39,5 @@ Thumbs.db
 *.RData
 data/raw/*.RData
 
-# Keep processed data files
-!data/processed/*.RData 
+data/processed/*.RData
+data/processed/*.rds 
