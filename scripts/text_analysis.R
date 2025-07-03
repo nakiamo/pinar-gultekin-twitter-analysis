@@ -85,6 +85,8 @@ hashtag_pairs <- hashtags_merged_df %>%
   group_by(id) %>%
   summarise(hashtags = list(unique(hashtag_final)), .groups = "drop") %>%
   filter(lengths(hashtags) > 1) %>%
+  # Limit hashtags per tweet to prevent memory issues
+  mutate(hashtags = map(hashtags, ~head(.x, 10))) %>%
   mutate(pairs = map(hashtags, ~combn(sort(.x), 2, simplify = FALSE))) %>%
   unnest(pairs) %>%
   mutate(
@@ -103,7 +105,7 @@ plt_cooc <- ggraph(g, layout = "fr") +
   geom_node_point(size = 5, color = "#1f77b4") +
   geom_node_text(aes(label = name), repel = TRUE, size = 3.5, family = "Times New Roman") +
   theme_void(base_family = "Times New Roman") +
-  labs(title = "Hashtag Co-occurrence Network (Top 40 Pairs, Final Cleaned)",
+  labs(title = "Hashtag Co-occurrence Network (Top 40 Pairs)",
        edge_width = "Co-occurrence Count") +
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = "bottom")

@@ -583,7 +583,7 @@ tweets.raw.df$created_at = ymd_hms(tweets.raw.df$created_at,
                                    tz = "Europe/Istanbul" )
 
 
-# We create a new variable which “forgets” the seconds and minutes of "created_at" column.
+# We create a new variable which "forgets" the seconds and minutes of "created_at" column.
 # If I wrıte 'minutes' yazsaydım sadece seconds u unutacaktı.i would only forget seconds.
 
 tweets.raw.df %<>% 
@@ -759,6 +759,11 @@ library(wordcloud2)
 
 set.seed(1234)
 wordcloud2(data = word.count, size = 4, minSize = 0, shape = 'pentagon')
+
+
+# Save processed data for further analysis
+save(tweets.raw.df, words.df, file = "data/processed/text_analysis_data.RData")
+cat("Text analysis data preparation complete. Data saved to 'data/processed/text_analysis_data.RData'\\n")
 
 
 # Count and create a wordcloud for Hashtags
@@ -1288,7 +1293,7 @@ node.impo.df %>%
 
 
 
-# betweenness centrality (Counts how many shortest paths each node is on. The higher a node’s betweenness, the more important they are for the efficient flow of goods in a network)
+# betweenness centrality (Counts how many shortest paths each node is on. The higher a node's betweenness, the more important they are for the efficient flow of goods in a network)
 
 node.impo.df %>%
   arrange(- betweenness) %>%
